@@ -1,0 +1,58 @@
+/* Header.css */
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  color: #fff;
+  text-decoration: none;
+  margin-right: 20px;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  padding: 0;
+}
+
+li {
+  margin: 0 10px;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .logo {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  ul {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  li {
+    margin: 5px 0;
+  }
+}

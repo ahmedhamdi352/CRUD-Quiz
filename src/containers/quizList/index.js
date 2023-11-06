@@ -1,8 +1,26 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import Quiz from '../../components/quiz';
+import quizzesActions from '../../state-mangment/quizes/actions';
 
-const index = () => {
+const QuizList = () => {
+  const dispatch = useDispatch()
+  const quizzes = useSelector(({ QuizzesReducer }) => QuizzesReducer.quizzes);
+
+  const [quizzesData, setQuizzesData] = useState([]);
+
+  useEffect(() => {
+    // Fetch quiz data when the component mounts
+    dispatch(quizzesActions.getQuizzes())
+  }, []);
+
+  useEffect(() => {
+    if (quizzes !== null)
+      setQuizzesData(quizzes)
+  }, [quizzes]);
+
   return (
-    <div>index.js</div>
+    <Quiz quizzes={quizzesData} />
   )
 }
-export default index
+export default QuizList;
