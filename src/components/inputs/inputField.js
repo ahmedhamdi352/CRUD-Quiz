@@ -3,7 +3,7 @@ import { Form, Input, Upload } from 'antd';
 import ErrorMessage from './errorMessage';
 const InputField = forwardRef((props, ref) => {
 
-  const { name, label = '', errors = {}, prefix = '', size = '' } = props;
+  const { name, label = '', errors, prefix = '', size = '' } = props;
   const errorMessage = errors[name] ? errors[name].message : '';
   const validateStatus = errorMessage ? 'error' : '';
   return (

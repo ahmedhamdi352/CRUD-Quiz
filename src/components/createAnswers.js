@@ -1,14 +1,14 @@
 import React from 'react'
 import AnswerForm from './answerForm'
-const CreateAnswer = ({ count }) => {
-
-  const items = Array.from({ length: count }, (_, index) => (
-    <AnswerForm key={index} />
-  ));
+import { Divider } from 'antd';
+const CreateAnswer = ({ count = 1 }) => {
 
   return (
     <>
-      {items}
+      <Divider />
+      <span>Answers</span>
+      <Divider />
+      <AnswerForm />
     </>
   )
 }

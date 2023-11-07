@@ -1,21 +1,36 @@
 import React, { } from 'react';
 import { Divider } from 'antd';
 import { useForm, Controller } from 'react-hook-form';
+import { useSelector, useDispatch } from 'react-redux'
+import { v4 as uuidv4 } from 'uuid';
 import { InputField, } from './inputs';
-import CreateAnswer from './createAnswers';
-
+import SteperButton from './createQuiz/steperButton';
+import CreateAnswers from './createAnswers';
+import quizzesActions from '../state-mangment/quizes/actions';
+import { useNavigate } from "react-router-dom";
 const CreateQuizForm = () => {
 
-  const { handleSubmit, control, reset, watch, } = useForm({
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const answers = useSelector(({ QuizzesReducer }) => QuizzesReducer.answers);
+
+  const { control, handleSubmit, formState: { errors }, getValues, reset, formState, watch } = useForm({
     mode: 'onChange',
     reValidateMode: 'onChange',
     defaultValues: {
-      text: '', feedback_false: '', feedback_true: '', num_answer: 1
+      text: '', feedback_false: '', feedback_true: '',
     },
   });
 
   const onSubmit = (values) => {
-    console.log(values)
+    dispatch(quizzesActions.setQuestion({ id: uuidv4(), ...values }))
+    reset();
+    navigate('/', { replace: true });
+  };
+
+  const saveQuestion = (values) => {
+    dispatch(quizzesActions.saveAndCreateNew({ id: uuidv4(), ...values }))
     reset();
   };
 
@@ -28,7 +43,8 @@ const CreateQuizForm = () => {
           <Controller
             name="text"
             control={control}
-            render={({ field }) => <InputField {...field} name="text" label="text"
+            rules={{ required: 'Field Required' }}
+            render={({ field }) => <InputField errors={errors} {...field} name="text" label="text"
             />}
 
           />
@@ -38,7 +54,8 @@ const CreateQuizForm = () => {
           <Controller
             name="feedback_true"
             control={control}
-            render={({ field }) => <InputField {...field} name="feedback_false" label="feedback true"
+            rules={{ required: 'Field Required' }}
+            render={({ field }) => <InputField errors={errors} {...field} name="feedback_false" label="feedback true"
             />}
           />
         </div>
@@ -47,24 +64,23 @@ const CreateQuizForm = () => {
           <Controller
             name="feedback_false"
             control={control}
-            render={({ field }) => <InputField {...field} name="feedback_false" label="feedback"
+            rules={{ required: 'Field Required' }}
+            render={({ field }) => <InputField errors={errors} {...field} name="feedback_false" label="feedback"
             />}
           />
         </div>
 
-        <div className="form-group col-6">
-          <Controller
-            name="num_answer"
-            control={control}
-            render={({ field }) => <InputField {...field} name="num_answer" label="num of answer"
-            />}
-          />
-        </div>
+        <CreateAnswers />
+        <SteperButton
+          showCrateNew={true}
+          disabled={(!formState.isValid && answers.length === 0)}
+          fun={onSubmit}
+          values={getValues()}
+          saveQuestion={saveQuestion}
+        />
+
       </div>
 
-      <Divider />
-      <span >Answers</span>
-      <CreateAnswer count={watch('num_answer')} />
     </form>
   );
 };

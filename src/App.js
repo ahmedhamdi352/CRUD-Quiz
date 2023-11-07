@@ -5,11 +5,9 @@ import PublicRoutes from './router';
 
 function App() {
   return (
-    <React.StrictMode>
-      <Provider store={store}>
-        <PublicRoutes history={history} />
-      </Provider>
-    </React.StrictMode>
+    <Provider store={store}>
+      <PublicRoutes history={history} />
+    </Provider>
   );
 }
 

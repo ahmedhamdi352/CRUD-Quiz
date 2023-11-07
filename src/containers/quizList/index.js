@@ -12,19 +12,19 @@ const QuizList = () => {
   const [quizzesData, setQuizzesData] = useState([]);
 
   useEffect(() => {
-    // Fetch quiz data when the component mounts
-    dispatch(quizzesActions.getQuizzes())
+    // Fetch quiz data only when quizzes is empty
+    dispatch(quizzesActions.getQuizzes());
+
   }, []);
 
   useEffect(() => {
-    if (quizzes !== null)
-      setQuizzesData(quizzes)
+    setQuizzesData(quizzes)
   }, [quizzes]);
 
   return (
     <div className="container">
       <button className='button-content' ><Link to="/add-quiz">Add Quiz</Link></button>
-      <Quiz quizzes={quizzesData} />
+      {quizzesData.length > 0 && <Quiz quizzes={quizzesData} />}
     </div>
   )
 }
